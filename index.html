@@ -46,11 +46,11 @@
 						<div class="sl-query__control">
 							<span class="sui-dropdown dropdown-bordered">
 									<span class="dropdown-inner">
-										<a role="button" data-toggle="dropdown" href="#" class="dropdown-toggle">
-											<input value="1" name="" type="hidden">
+										<a role="button" data-toggle="dropdown" href="#" class="dropdown-toggle" id="drop1">
+											<input value="" name="" type="hidden">
 											<i class="caret"></i><span>全部</span>
 										</a>
-										<ul role="menu" class="sui-dropdown-menu">
+										<ul role="menu" aria-labelledby="drop1" class="sui-dropdown-menu">
 											<li role="presentation"> <a role="menuitem" tabindex="-1" href="javascript:void(0);" value="1">手机</a> </li>
 											<li role="presentation"> <a role="menuitem" tabindex="-1" href="javascript:void(0);" value="2">电脑</a> </li>
 										</ul>
@@ -201,7 +201,9 @@
 						</div>
 						<div class="sl-pagination__text">item1-10 in 213 items</div>
 					</div>
-				</div>
+				
+				<!--<div class="pagination-wrapper" style="text-align: center;"></div>
+				</div>-->
 			</div>
 		</div>	
 		<script src="js/util.js" type="text/javascript" charset="utf-8"></script>

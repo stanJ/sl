@@ -5,64 +5,6 @@ $(function(){
 var frameObj = {
 	init: function(){
 		loadFrame();
-//		this.loadMainTabs();
-//		this.loadTabs();
-//		this.bindEvent();
-	},
-	bindEvent: function(){
-		var _this = this;
-		$(".tab-title").click(function(){
-			$(".tab-title").removeClass('is-active');
-			$(this).addClass('is-active')
-			_this.loadMainTabs();
-		})
-		$(".tab-item").click(function(){
-			var items = $(this).parents('.tabs:first').find('.tab-item');
-			items.removeClass('is-active');
-			$(this).addClass('is-active')
-			_this.loadTabs($(this));
-		})
-	},
-	loadMainTabs: function(){
-		var tab = $(".tab-title.is-active")
-		if(tab){
-			$(".tab-pane").hide();
-			var name = tab.data('name');
-			$(".tab-pane[data-name='"+name+"']").show();
-			var title = $(".nav__title");
-			if(title){
-				title.find('.title-prefix-md').text(tab.text());
-			}
-			var func = tab.data('func');
-			var page = tab.data('page');
-			if(page){
-				if(func){
-					if(page == 'product'){
-						productObj[func]();
-					}else if(page == 'user'){
-						userObj[func]();
-					}
-					
-				}
-			}
-			
-			
-		}
-	},
-	loadTabs: function(tabAry){
-		if(!tabAry){
-			tabAry = $(".tabs .tabs__header .tab-item.is-active");
-			$(".tab-content").hide();
-		}else{
-			tabAry.parents(".tabs:first").find('.tab-content').hide();
-		}
-//		var tabAry = $(".tabs .tabs__header .tab-item.is-active");
-//		$(".tab-content").hide();
-		tabAry.each(function(i){
-			var index = $(this).index();
-			var tabContent = $(this).parents(".tabs:first").children(".tabs__content").children(".tab-content").eq(index);
-			tabContent.show();
-		})
 	},
 }
 function loadFrame(){
