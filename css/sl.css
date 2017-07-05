@@ -416,7 +416,6 @@
     color: #c49771;
 }
 .checkbox-pretty.checked > span:before, .radio-pretty.checked > span:before {
-    content: "\e607";
     color: #c49771;
 }
 .sui-nav.nav-tabs > li > a.selected{
