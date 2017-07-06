@@ -55,7 +55,7 @@
 							</div>
 							<div class="sl-row--normal clearfix">
 								<div class="fl row__left-label">分类</div>
-								<button type="button" class="sui-btn btn-primary fr top-radius">分类维护</button>
+								<button type="button" class="sui-btn btn-primary fr top-radius" onclick="editCategory()">分类维护</button>
 							</div>
 							<div class="control-group mb1">
 								<label class="control-label sl-label-special" style="min-width: 76px;">
@@ -143,7 +143,7 @@
 							
 							<div class="sl-row--normal clearfix">
 								<div class="fl row__left-label">品牌</div>
-								<button type="button" class="sui-btn btn-primary fr top-radius">品牌维护</button>
+								<button type="button" class="sui-btn btn-primary fr top-radius" onclick="editBrand()">品牌维护</button>
 							</div>
 							<div class="control-group mb1">
 								<label class="control-label sl-label-special" style="min-width: 76px;">
@@ -260,6 +260,7 @@
 															</div>
 															<div class="param__value fl">
 																<input type="text" class="input-xlarge input-value" placeholder="值" />
+																<div class="sl-icon-trash"></div>
 															</div>
 														</div>
 														<div class="sl-param clearfix">
@@ -268,6 +269,7 @@
 															</div>
 															<div class="param__value fl">
 																<input type="text" class="input-xlarge input-value" placeholder="值" />
+																<div class="sl-icon-trash"></div>
 															</div>
 														</div>
 													</div>
@@ -282,6 +284,7 @@
 															</div>
 															<div class="param__value fl">
 																<input type="text" class="input-xlarge input-value" placeholder="值" />
+																<div class="sl-icon-trash"></div>
 															</div>
 														</div>
 														<div class="sl-param clearfix">
@@ -290,6 +293,7 @@
 															</div>
 															<div class="param__value fl">
 																<input type="text" class="input-xlarge input-value" placeholder="值" />
+																<div class="sl-icon-trash"></div>
 															</div>
 														</div>
 													</div>
@@ -520,10 +524,206 @@
 				</div>
 			</div>
 		</div>	
-		<script src="js/util.js" type="text/javascript" charset="utf-8"></script>
 		<script src="lib/jquery/jquery-3.2.1.js"></script>
+		<script src="js/util.js" type="text/javascript" charset="utf-8"></script>
+		
 		<script src="lib/sui/sui.js" type="text/javascript" charset="utf-8"></script>
 		<script src="lib/selectify/jquery.selectify.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/frame.js" type="text/javascript" charset="utf-8"></script>
+		<script src="lib/template/template.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var modal1 = null,
+				modal2 = null;
+			function editCategory(){
+				modal1 = new ModalBuilder('template1', {
+					title: '新增分类',
+					shown: function(){
+						console.log('出现了');
+					},
+					okHide: function(){
+						console.log('确定')
+					},
+					cancelHide: function(){
+						console.log('取消')
+					},
+				})
+			}
+			function editBrand(){
+				modal1 = new ModalBuilder('template2', {
+					title: '新增品牌',
+					shown: function(){
+						console.log('出现了');
+					},
+					okHide: function(){
+						console.log('确定')
+					},
+					cancelHide: function(){
+						console.log('取消')
+					},
+				})
+			}
+			$(".sl-icon-trash").on('click',function(){
+				$.confirm({
+					title: '弹框',
+					body: '是否删除?',
+					okHide: function(){
+						$.alert({
+							title: '提示弹框',
+							body: '点击了确定',
+						});
+					},
+					cancelHide: function(){
+						$.alert('点击了取消')
+					}
+				})
+			})
+		</script>
+		<script id="template1" type="text/html">
+			<div id="myModal1" tabindex="-1" role="dialog" data-hasfoot="false" class="sui-modal hide fade">	
+			  <div class="modal-dialog">
+				<div class="modal-content">
+				  <div class="modal-header">
+					<h4 id="myModalLabel" class="modal-title">Modal title111</h4>
+				  </div>
+				  <div class="modal-body">
+						<div class="sl-category-wrapper sui-form clearfix">
+							<div class="sl-category__left fl" >
+								<div class="cl-title clearfix">
+									<div class="cl-title__text fl">分类列表</div>
+									<div class="sl-icon--add fr"></div>
+								</div>
+								<input type="text" class="input-large" placeholder="搜索" />
+								<div class="sl-list-block">
+									<div class="sl-list sl-list--category">
+										<div class="sl-list__item">手机</div>
+										<div class="sl-list__item is-active">食品</div>
+										<div class="sl-list__item">服饰</div>
+									</div>
+									<input type="text" class="input-medium" placeholder="新选项" 
+											style="margin-left: 9px;width: 180px;box-sizing: border-box;height: 34px;"/>
+								</div>
+								
+							</div>
+							<div class="sl-category__right fl">
+								<div class="sl-transfer clearfix">
+									<div class="sl-transfer__left fl">
+										<div class="cl-title clearfix" style="padding-bottom: 46px;">
+											<div class="cl-title__text fl">关联品牌</div>
+										</div>
+										<div class="sl-list-block">
+											<div class="sl-list sl-list--linkedBrand">
+												<div class="sl-list__item">华为</div>
+												<div class="sl-list__item is-active">三星</div>
+												<div class="sl-list__item">小米</div>
+											</div>
+										</div>
+									</div>
+									<div class="sl-transfer__btns fl">
+										<div class="slt-btns">
+											<div class="slt-btn"><i class="sui-icon icon-arrow-fat-right sl-icon--arrow"></i></div>
+											<div class="slt-btn" style="margin-top: 5px;"><i class="sui-icon icon-arrow-fat-left sl-icon--arrow"></i></div>
+										</div>
+										
+									</div>
+									<div class="sl-transfer__right fl">
+										<div class="cl-title clearfix">
+											<div class="cl-title__text fl">品牌列表</div>
+										</div>
+										<input type="text" class="input-large" placeholder="搜索" />
+										<div class="sl-list-block">
+											<div class="sl-list sl-list--brand">
+												<div class="sl-list__item">资生堂</div>
+												<div class="sl-list__item is-active">妮维雅</div>
+												<div class="sl-list__item">欧莱雅</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+				  </div>
+				  <div class="modal-footer">
+					<button type="button" data-ok="modal" class="sui-btn btn-primary btn-borderadius sl-btn--md">提交</button>
+					<button type="button" data-dismiss="modal" class="sui-btn btn-borderadius sl-btn--md" style="margin-left: 80px;">取消</button>
+				  </div>
+				</div>
+			  </div>
+			</div>
+		</script>
+	
+		<script id="template2" type="text/html">
+			<div id="myModal2" tabindex="-1" role="dialog" data-hasfoot="false" class="sui-modal hide fade">	
+			  <div class="modal-dialog">
+				<div class="modal-content">
+				  <div class="modal-header">
+					<h4 id="myModalLabel" class="modal-title">Modal title111</h4>
+				  </div>
+				  <div class="modal-body">
+						<div class="sl-category-wrapper sui-form clearfix">
+							<div class="sl-category__left fl" >
+								<div class="cl-title clearfix">
+									<div class="cl-title__text fl">品牌列表</div>
+									<div class="sl-icon--add fr"></div>
+								</div>
+								<input type="text" class="input-large" placeholder="搜索" />
+								<div class="sl-list-block">
+									<div class="sl-list sl-list--brand">
+										<div class="sl-list__item">资生堂</div>
+										<div class="sl-list__item is-active">妮维雅</div>
+										<div class="sl-list__item">欧莱雅</div>
+									</div>
+									
+									<input type="text" class="input-medium" placeholder="新选项" 
+											style="margin-left: 9px;width: 180px;box-sizing: border-box;height: 34px;"/>
+								</div>
+								
+							</div>
+							<div class="sl-category__right fl">
+								<div class="sl-transfer clearfix">
+									<div class="sl-transfer__left fl">
+										<div class="cl-title clearfix" style="padding-bottom: 46px;">
+											<div class="cl-title__text fl">关联分类</div>
+										</div>
+										<div class="sl-list-block">
+											<div class="sl-list sl-list--linkedCategory">
+												<div class="sl-list__item">家电</div>
+												<div class="sl-list__item is-active">影音</div>
+												<div class="sl-list__item">钟表</div>
+											</div>
+										</div>
+									</div>
+									<div class="sl-transfer__btns fl">
+										<div class="slt-btns">
+											<div class="slt-btn"><i class="sui-icon icon-arrow-fat-right sl-icon--arrow"></i></div>
+											<div class="slt-btn" style="margin-top: 5px;"><i class="sui-icon icon-arrow-fat-left sl-icon--arrow"></i></div>
+										</div>
+										
+									</div>
+									<div class="sl-transfer__right fl">
+										<div class="cl-title clearfix">
+											<div class="cl-title__text fl">分类列表</div>
+										</div>
+										<input type="text" class="input-large" placeholder="搜索" />
+										<div class="sl-list-block">
+											<div class="sl-list sl-list--category">
+												<div class="sl-list__item">手机</div>
+												<div class="sl-list__item is-active">食品</div>
+												<div class="sl-list__item">服饰</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+				  </div>
+				  <div class="modal-footer">
+					<button type="button" data-ok="modal" class="sui-btn btn-primary btn-borderadius sl-btn--md">提交</button>
+					<button type="button" data-dismiss="modal" class="sui-btn btn-borderadius sl-btn--md" style="margin-left: 80px;">取消</button>
+				  </div>
+				</div>
+			  </div>
+			</div>
+		</script>
+	
 	</body>
 </html>

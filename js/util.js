@@ -278,4 +278,139 @@ var utilObj = {
 		}
 		return ary;
 	}
-}
+};
+(function($){
+	var ModalBuilder = function(selector, options){
+		this._currentZIndex = 1000;
+		this._modalClass = null;
+		this.selector = selector;
+		this.options = {
+				title:'提示',//标题
+				titlebgColor:'',//标题背景颜色
+				containerWidth:'',//容器宽度百分比
+				maxWidth : 0.7,
+				minWidth : 0.2,
+				contentheight:'',//内容高度
+				maxHeight : 0.8,
+				minHeight: 0.2	,
+		};
+		$.extend(true, this.options, options);
+		this.modal();
+	}
+	ModalBuilder.prototype = {
+		modal:function(){
+			this._creatElemHtml();
+			$('.'+ this._modalClass).modal();
+			var that = this;
+			if(this.options.shown){
+				$('.'+ this._modalClass).on('shown', function(e){						
+					that.options.shown();
+				});
+			}
+			if(this.options.okHide){
+				$('.'+ this._modalClass).on('okHide', function(e){						
+					that.options.okHide();
+				});
+			}
+			if(this.options.cancelHide){
+				$('.'+ this._modalClass).on('cancelHide', function(e){						
+					that.options.cancelHide();
+				});
+			}
+			
+			if(this.options.hidden){
+				$('.'+ this._modalClass).on('hidden', function(e){						
+					that.options.hidden();
+					$(this).remove();
+				});
+			}else{
+				$('.'+ this._modalClass).on('hidden', function(e){						
+					$(this).remove();
+				});
+			}
+			
+			if(!this.options.containerWidth){//弹层自定义宽度展示后获取宽度值
+				$('.'+ this._modalClass).css('width','auto');					
+				var objwidth = $('.'+ this._modalClass).width();
+				$('.'+ this._modalClass).css({'margin-left':'-'+(objwidth/2) + 'px','left':'50%'});
+			}
+			/** 拖拽模态框*/ 			
+			this._drapModal();					
+			$(".sui-modal-backdrop:last").css("z-index",this._currentZIndex);
+			this._currentZIndex++;
+			$(".sui-modal:last").css("z-index",this._currentZIndex);
+			this._currentZIndex++;
+		},
+		_creatElemHtml : function(){	
+			this._modalClass='modal_'+new Date().valueOf();
+			var bodyWidth = document.documentElement.clientWidth;
+			var bodyHeight = document.documentElement.clientHeight;	
+			$('body').append(template(this.selector));	
+			$('body div[role="dialog"]:last').addClass(this._modalClass);					
+			$('.'+ this._modalClass + " .modal-body").css({'max-width':this.options.maxWidth*bodyWidth + 'px','min-width':this.options.minWidth*bodyWidth +'px'});
+			$('.'+ this._modalClass + " .modal-header h4").text(this.options.title);
+			$('.'+ this._modalClass + " .modal-header").css('background',this.options.titlebgColor);
+			$('.'+ this._modalClass + " .modal-body").css({'max-height':this.options.maxHeight*bodyHeight+'px','min-height':this.options.minHeight*bodyHeight + 'px'});
+			if(this.options.contentheight && this.options.contentheight !='auto'){
+				if(this.options.contentheight > this.options.maxHeight){
+					$('.'+ this._modalClass + " .modal-body").css({'height':this.options.maxHeight*bodyHeight});
+				}else{
+					$('.'+ this._modalClass + " .modal-body").css({'height':this.options.contentheight*bodyHeight});
+				}
+				
+			}else{
+				$('.'+ this._modalClass + " .modal-body").css({'height':'auto'});
+			}
+			if(this.options.containerWidth && this.options.containerWidth !='auto'){
+				if(this.options.containerWidth > this.options.maxWidth){
+					$('.'+ this._modalClass).css({'width':this.options.maxWidth*bodyWidth + 'px','margin-left':'-'+(this.options.maxWidth*bodyWidth/2) + 'px','left':'50%'});
+				}else{
+					$('.'+ this._modalClass).css({'margin-left':'-'+(this.options.containerWidth*bodyWidth/2) + 'px','width':this.options.containerWidth*bodyWidth + 'px','left':'50%'});
+				}
+				
+			}
+		
+		},
+		_drapModal:function(){
+			var p={};
+	        function getXY(eve) {
+	            var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+	            var scrollLeft = document.documentElement.scrollLeft || document.body.scrollLeft;
+	            return {x : scrollLeft + eve.clientX,y : scrollTop + eve.clientY };
+	        }
+	        
+	        $(document).on("mouseup",function(ev){
+	        	p={};
+	        	$(document).off("mousemove");
+	        });
+	        
+	        $(".modal-header:last").on("mousedown",function(ev){
+	        	document.body.onselectstart=document.body.ondrag=function(){
+					return false;
+				}
+	        	p.y = ev.pageY - $(this).parents(".sui-modal")[0].offsetTop;
+	        	p.x = ev.pageX - $(this).parents(".sui-modal")[0].offsetLeft;
+	        	
+	            $(document).on("mousemove",function(ev){console.log("a");
+	        		var oEvent = ev || event;
+	                var pos = getXY(oEvent);
+	                $(".sui-modal:last").css({left:(pos.x-p.x) + "px",top:(pos.y-p.y) + "px","margin-left":"10px","margin-top":"10px"});
+	            });
+	        });
+			$(document).on('hidden.bs.modal','.modal',function(e){
+				$('.modal-dialog').css({'top': '0px','left': '0px'})
+				document.body.onselectstart=document.body.ondrag=null;
+			});
+		},
+		resize:function(){
+			var w = 0-$('.'+ this._modalClass).width()/2;
+			var h = 0-$('.'+ this._modalClass).height()/2;
+			$('.'+ this._modalClass).css({"margin-top":h+"px","margin-left":w+"px"});
+		}
+	}
+	if ( typeof module != 'undefined' && module.exports ) {
+		module.exports = treeBuilder;
+	} else {
+		window.ModalBuilder = ModalBuilder;
+	}
+})(jQuery)
